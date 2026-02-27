@@ -22,10 +22,12 @@ class UserController {
 				throw new Error('Invalid Credentials');
 			}
 
-			console.log(userFound);
+			req.session.user = { ...userFound };
+
+			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
-			res.render('register-page', { error: error.message });
+			res.render('login-page', { error: error.message });
 		}
 	}
 
