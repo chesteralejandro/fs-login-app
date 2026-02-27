@@ -64,7 +64,7 @@ class UserController {
 	}
 
 	showDashboardPage(req, res) {
-		res.render('dashboard');
+		res.render('dashboard', { user: req.session.user });
 	}
 }
 

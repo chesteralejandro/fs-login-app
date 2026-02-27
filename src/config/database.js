@@ -22,7 +22,7 @@ class Database {
 
 	async selectUserByEmail(userEmail) {
 		const query =
-			'SELECT id, first_name, last_name, email, password FROM users WHERE email = ?';
+			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE email = ?';
 		const [userArray] = await this.connection.execute(query, [userEmail]);
 
 		return userArray;

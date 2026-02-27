@@ -140,6 +140,7 @@ button:hover {
 
 .dashboard-card h2 {
 	margin-bottom: 10px;
+	text-transform: capitalize;
 }
 
 .dashboard-subtext {
