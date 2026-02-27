@@ -12,6 +12,12 @@
 				<a href="/logout" class="logout-btn">Logout</a>
 			</nav>
 
+<% if (success_msg.length > 0) { %>
+	<div class="flash-success">
+		<%= success_msg %>
+	</div>
+<% } %>
+
 			<div class="dashboard-card">
 				<h2>Welcome, <%=user.first_name%> 👋</h2>
 				<p class="dashboard-subtext">
