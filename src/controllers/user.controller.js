@@ -1,18 +1,40 @@
 const database = require('../config/database');
-const { createHashedPassword } = require('../utils/bcrypt');
+const { createHashedPassword, validatePassword } = require('../utils/bcrypt');
 
 class UserController {
-	processLogin(req, res) {
-		const body = req.body;
-		console.log(body);
+	async processLogin(req, res) {
+		const user = req.body;
+
+		try {
+			const userArray = await database.selectUserByEmail(user.email);
+
+			if (!Boolean(userArray.length)) {
+				throw new Error('No User Found');
+			}
+
+			const [userFound] = userArray;
+			const passwordValid = await validatePassword(
+				user.password,
+				userFound.password,
+			);
+
+			if (!passwordValid) {
+				throw new Error('Invalid Credentials');
+			}
+
+			console.log(userFound);
+		} catch (error) {
+			console.error('❌', error.message);
+			res.render('register-page', { error: error.message });
+		}
 	}
 
 	async processRegistration(req, res) {
 		const user = req.body;
 		try {
-			const userFound = await database.findUserByEmail(user.email);
+			const userArray = await database.selectUserByEmail(user.email);
 
-			if (Boolean(userFound.length)) {
+			if (Boolean(userArray.length)) {
 				throw new Error('Email already registered');
 			}
 

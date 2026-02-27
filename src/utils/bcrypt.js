@@ -8,3 +8,7 @@ exports.createHashedPassword = async (password) => {
 
 	return hashedPassword;
 };
+
+exports.validatePassword = async (passwordProvided, passwordFound) => {
+	return await bcrypt.compare(passwordProvided, passwordFound);
+};
