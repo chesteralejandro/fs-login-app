@@ -1,6 +1,6 @@
 class UserController {
 	showHomepage(req, res) {
-		res.send('Hello from controller.');
+		res.render('homepage');
 	}
 }
 
