@@ -14,6 +14,7 @@ const userController = require('../controllers/user.controller');
 router.get('/', userController.showLoginPage);
 router.get('/register', userController.showRegisterPage);
 router.get('/dashboard', requireAuth, userController.showDashboardPage);
+router.get('/logout', userController.processLogout);
 
 router.post(
 	'/register',

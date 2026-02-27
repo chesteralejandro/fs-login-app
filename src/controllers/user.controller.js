@@ -31,6 +31,12 @@ class UserController {
 		}
 	}
 
+	processLogout(req, res) {
+		req.session.destroy(() => {
+			res.redirect('/');
+		});
+	}
+
 	async processRegistration(req, res) {
 		const user = req.body;
 		try {
