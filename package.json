@@ -1,0 +1,29 @@
+{
+	"name": "fs-login-app",
+	"version": "1.0.0",
+	"description": "Full-stack login application using MVC",
+	"keywords": [
+		"full-stack",
+		"MVC",
+		"login"
+	],
+	"homepage": "https://github.com/chesteralejandro/fs-login-app#readme",
+	"bugs": {
+		"url": "https://github.com/chesteralejandro/fs-login-app/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chesteralejandro/fs-login-app.git"
+	},
+	"license": "MIT",
+	"author": "Chester",
+	"type": "commonjs",
+	"main": "src/app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "nodemon -r dotenv/config src/app.js"
+	},
+	"dependencies": {
+		"express": "^5.2.1"
+	}
+}
