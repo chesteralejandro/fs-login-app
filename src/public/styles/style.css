@@ -174,3 +174,21 @@ button:hover {
 	font-size: 14px;
 	color: #555;
 }
+
+.flash-error {
+	background-color: #f8d7da;
+	color: #842029;
+	padding: 10px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+.flash-success {
+	background-color: #d1e7dd;
+	color: #0f5132;
+	padding: 10px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	text-align: center;
+}

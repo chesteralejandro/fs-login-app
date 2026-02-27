@@ -9,6 +9,7 @@ class UserController {
 			const userArray = await database.selectUserByEmail(user.email);
 
 			if (!Boolean(userArray.length)) {
+				req.flash('error', 'Invalid email or password');
 				throw new Error('No User Found');
 			}
 
@@ -19,15 +20,17 @@ class UserController {
 			);
 
 			if (!passwordValid) {
+				req.flash('error', 'Invalid email or password');
 				throw new Error('Invalid Credentials');
 			}
 
 			req.session.user = { ...userFound };
 
+			req.flash('success', 'Welcome back!');
 			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
-			res.render('login-page', { error: error.message });
+			res.redirect('/');
 		}
 	}
 
@@ -43,15 +46,22 @@ class UserController {
 			const userArray = await database.selectUserByEmail(user.email);
 
 			if (Boolean(userArray.length)) {
+				req.flash('error', 'Email already registered');
 				throw new Error('Email already registered');
 			}
 
 			const hashedPassword = await createHashedPassword(user.password);
 
 			await database.createUser({ ...user, password: hashedPassword });
+
+			req.flash(
+				'success',
+				'Registration successful! You can now log in.',
+			);
+			res.redirect('/login');
 		} catch (error) {
 			console.error('❌', error.message);
-			res.render('register-page', { error: error.message });
+			res.redirect('/register');
 		}
 	}
 
