@@ -94,3 +94,82 @@ button:hover {
 .switch a:hover {
 	text-decoration: underline;
 }
+
+/* ================= DASHBOARD ================= */
+
+.dashboard-container {
+	width: 100%;
+	min-height: 100vh;
+	background: #f8f9fc;
+}
+
+.navbar {
+	background: #4e73df;
+	color: white;
+	padding: 15px 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.logo {
+	font-size: 20px;
+}
+
+.logout-btn {
+	color: white;
+	text-decoration: none;
+	background: rgba(255, 255, 255, 0.2);
+	padding: 8px 15px;
+	border-radius: 5px;
+	transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+	background: rgba(255, 255, 255, 0.35);
+}
+
+.dashboard-card {
+	max-width: 800px;
+	margin: 60px auto;
+	background: white;
+	padding: 40px;
+	border-radius: 10px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-card h2 {
+	margin-bottom: 10px;
+}
+
+.dashboard-subtext {
+	color: #666;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.dashboard-info {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+}
+
+.info-box {
+	flex: 1;
+	min-width: 200px;
+	background: #f1f3f9;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.info-box h3 {
+	font-size: 16px;
+	margin-bottom: 8px;
+	color: #333;
+}
+
+.info-box p {
+	font-size: 14px;
+	color: #555;
+}
