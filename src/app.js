@@ -1,11 +1,11 @@
 const express = require('express');
 
+const server = require('./config/server');
+
 const app = express();
 
 app.get('/', (req, res) => {
-	res.send('Hello From Express');
+	res.send('Server is in another file.');
 });
 
-app.listen(3000, () => {
-	console.log('✅ Success. Server is listening.');
-});
+server.listen(app);
