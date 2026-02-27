@@ -1,4 +1,9 @@
 class UserController {
+	processLogin(req, res) {
+		const body = req.body;
+		console.log(body);
+	}
+
 	processRegistration(req, res) {
 		const body = req.body;
 		console.log(body);
