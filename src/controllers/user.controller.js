@@ -1,4 +1,9 @@
 class UserController {
+	processRegistration(req, res) {
+		const body = req.body;
+		console.log(body);
+	}
+
 	showLoginPage(req, res) {
 		res.render('login-page');
 	}
