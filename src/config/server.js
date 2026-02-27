@@ -1,12 +1,19 @@
 const http = require('node:http');
 
-class Server {
-	listen(app) {
-		const server = http.createServer(app);
+const database = require('./database');
 
-		server.listen(process.env.PORT, () => {
-			console.log('✅ Success. Server is listening.');
-		});
+class Server {
+	async listen(app) {
+		const server = http.createServer(app);
+		try {
+			await database.connect();
+
+			server.listen(process.env.PORT, () => {
+				console.log('✅ Success. Server is listening.');
+			});
+		} catch (error) {
+			console.error('❌', error.message);
+		}
 	}
 }
 
