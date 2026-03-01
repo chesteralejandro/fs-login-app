@@ -1,30 +1,31 @@
 const userModel = require('../models/user.model');
+const URL_ROUTES = require('../constants/URL_ROUTES');
 
 class UserController {
 	async processLogin(req, res) {
 		try {
 			await userModel.login(req);
-			res.redirect('/');
+			res.redirect(URL_ROUTES.DASHBOARD);
 		} catch (error) {
 			console.error('❌', error.message);
 			req.session.inputValues = req.body;
-			res.redirect('/login');
+			res.redirect(URL_ROUTES.LOGIN);
 		}
 	}
 
 	processLogout(req, res) {
 		userModel.logout(req);
-		res.redirect('/login');
+		res.redirect(URL_ROUTES.LOGIN);
 	}
 
 	async processRegistration(req, res) {
 		try {
 			await userModel.register(req);
-			res.redirect('/');
+			res.redirect(URL_ROUTES.DASHBOARD);
 		} catch (error) {
 			console.error('❌', error.message);
 			req.session.inputValues = req.body;
-			res.redirect('/register');
+			res.redirect(URL_ROUTES.REGISTER);
 		}
 	}
 
