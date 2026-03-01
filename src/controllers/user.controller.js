@@ -4,23 +4,23 @@ class UserController {
 	async processLogin(req, res) {
 		try {
 			await userModel.login(req);
-			res.redirect('/dashboard');
+			res.redirect('/');
 		} catch (error) {
 			console.error('❌', error.message);
 			req.session.inputValues = req.body;
-			res.redirect('/');
+			res.redirect('/login');
 		}
 	}
 
 	processLogout(req, res) {
 		userModel.logout(req);
-		res.redirect('/');
+		res.redirect('/login');
 	}
 
 	async processRegistration(req, res) {
 		try {
 			await userModel.register(req);
-			res.redirect('/dashboard');
+			res.redirect('/');
 		} catch (error) {
 			console.error('❌', error.message);
 			req.session.inputValues = req.body;
