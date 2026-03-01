@@ -1,32 +1,9 @@
-const database = require('../config/database');
-const { createHashedPassword, validatePassword } = require('../utils/bcrypt');
+const userModel = require('../models/user.model');
 
 class UserController {
 	async processLogin(req, res) {
-		const user = req.body;
-
 		try {
-			const userArray = await database.selectUserByEmail(user.email);
-
-			if (!Boolean(userArray.length)) {
-				req.flash('error', 'Invalid email or password');
-				throw new Error('No User Found');
-			}
-
-			const [userFound] = userArray;
-			const passwordValid = await validatePassword(
-				user.password,
-				userFound.password,
-			);
-
-			if (!passwordValid) {
-				req.flash('error', 'Invalid email or password');
-				throw new Error('Invalid Credentials');
-			}
-
-			req.session.user = { ...userFound };
-
-			req.flash('success', 'Welcome back!');
+			await userModel.login(req);
 			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
@@ -35,30 +12,14 @@ class UserController {
 	}
 
 	processLogout(req, res) {
-		req.session.destroy(() => {
-			res.redirect('/');
-		});
+		userModel.logout(req);
+		res.redirect('/');
 	}
 
 	async processRegistration(req, res) {
-		const user = req.body;
 		try {
-			const userArray = await database.selectUserByEmail(user.email);
-
-			if (Boolean(userArray.length)) {
-				req.flash('error', 'Email already registered');
-				throw new Error('Email already registered');
-			}
-
-			const hashedPassword = await createHashedPassword(user.password);
-
-			await database.createUser({ ...user, password: hashedPassword });
-
-			req.flash(
-				'success',
-				'Registration successful! You can now log in.',
-			);
-			res.redirect('/login');
+			await userModel.register(req);
+			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
 			res.redirect('/register');
