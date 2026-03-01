@@ -25,22 +25,26 @@
 				<form action="/register" method="POST">
 					<div class="form-group">
 						<label>First Name</label>
-						<input type="text" name="firstName" required />
+						<input type="text" name="firstName" value="<%=firstNameValue ? firstNameValue : ''%>" />
+						<small class="error"><%=firstNameError && firstNameError.msg%></small>
 					</div>
 
 					<div class="form-group">
 						<label>Last Name</label>
-						<input type="text" name="lastName" required />
+						<input type="text" name="lastName" value="<%=lastNameValue ? lastNameValue : ''%>"  />
+						<small class="error"><%=lastNameError && lastNameError.msg%></small>
 					</div>
 
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" name="email" required />
+						<input type="text" name="email" value="<%=emailValue ? emailValue : ''%>" />
+						<small class="error"><%=emailError && emailError.msg%></small>
 					</div>
 
 					<div class="form-group">
 						<label>Password</label>
-						<input type="password" name="password" required />
+						<input type="password" name="password"  value="<%=passwordValue ? passwordValue : ''%>" />
+						<small class="error"><%=passwordError && passwordError.msg%></small>
 					</div>
 
 					<div class="form-group">
@@ -48,8 +52,9 @@
 						<input
 							type="password"
 							name="confirmPassword"
-							required
+							value="<%=confirmPasswordValue ? confirmPasswordValue : ''%>"
 						/>
+						<small class="error"><%=confirmPasswordError && confirmPasswordError.msg%></small>
 					</div>
 
 					<button type="submit">Register</button>

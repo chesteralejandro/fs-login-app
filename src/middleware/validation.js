@@ -74,15 +74,15 @@ const loginValidation = [
 |--------------------------------------------------------------------------
 */
 
-const handleValidationErrors = (viewName) => {
+const handleValidationErrors = (route) => {
 	return (req, res, next) => {
 		const errors = validationResult(req);
 
 		if (!errors.isEmpty()) {
-			res.render(viewName, {
-				errors: errors.array(),
-				oldInput: req.body,
-			});
+			req.session.validationErrors = errors.array();
+			req.session.inputValues = req.body;
+
+			res.redirect(route);
 			return;
 		}
 

@@ -192,3 +192,7 @@ button:hover {
 	margin-bottom: 15px;
 	text-align: center;
 }
+
+.error {
+	color: crimson;
+}

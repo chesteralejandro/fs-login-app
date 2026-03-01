@@ -7,6 +7,7 @@ class UserController {
 			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
+			req.session.inputValues = req.body;
 			res.redirect('/');
 		}
 	}
@@ -22,16 +23,19 @@ class UserController {
 			res.redirect('/dashboard');
 		} catch (error) {
 			console.error('❌', error.message);
+			req.session.inputValues = req.body;
 			res.redirect('/register');
 		}
 	}
 
 	showLoginPage(req, res) {
-		res.render('login-page');
+		const pageValues = userModel.validateLoginPage(req);
+		res.render('login-page', { ...pageValues });
 	}
 
 	showRegisterPage(req, res) {
-		res.render('register-page');
+		const pageValues = userModel.validateRegisterPage(req);
+		res.render('register-page', { ...pageValues });
 	}
 
 	showDashboardPage(req, res) {

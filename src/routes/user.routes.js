@@ -19,13 +19,13 @@ router.get('/logout', userController.processLogout);
 router.post(
 	'/register',
 	registerValidation,
-	handleValidationErrors('register-page'),
+	handleValidationErrors('/register'),
 	userController.processRegistration,
 );
 router.post(
 	'/login',
 	loginValidation,
-	handleValidationErrors('login-page'),
+	handleValidationErrors('/'),
 	userController.processLogin,
 );
 
