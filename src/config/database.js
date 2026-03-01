@@ -14,7 +14,7 @@ class Database {
 				database: process.env.DATABASE_NAME,
 			});
 
-			console.log('✅ Success. Database is connected.');
+			console.log('🟢 Success. Database is connected.');
 		} catch (error) {
 			throw new Error(error.message);
 		}
@@ -35,9 +35,11 @@ class Database {
 		const { firstName, lastName, email, password } = userData;
 		const values = [firstName, lastName, email, password];
 
-		const [result, fields] = await this.connection.execute(query, values);
+		const [result, _fields] = await this.connection.execute(query, values);
 
-		console.log(result, fields);
+		const { insertId } = result;
+
+		return insertId;
 	}
 }
 

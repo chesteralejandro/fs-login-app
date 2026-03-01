@@ -9,10 +9,10 @@ class Server {
 			await database.connect();
 
 			server.listen(process.env.PORT, () => {
-				console.log('✅ Success. Server is listening.');
+				console.log('🟢 Success. Server is listening.');
 			});
 		} catch (error) {
-			console.error('❌', error.message);
+			console.error('🔴', error.message);
 		}
 	}
 }

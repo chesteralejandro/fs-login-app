@@ -7,7 +7,7 @@ class UserController {
 			await userModel.login(req);
 			res.redirect(URL_ROUTES.DASHBOARD);
 		} catch (error) {
-			console.error('❌', error.message);
+			console.error('🔴', error.message);
 			req.session.inputValues = req.body;
 			res.redirect(URL_ROUTES.LOGIN);
 		}
@@ -23,7 +23,7 @@ class UserController {
 			await userModel.register(req);
 			res.redirect(URL_ROUTES.DASHBOARD);
 		} catch (error) {
-			console.error('❌', error.message);
+			console.error('🔴', error.message);
 			req.session.inputValues = req.body;
 			res.redirect(URL_ROUTES.REGISTER);
 		}
