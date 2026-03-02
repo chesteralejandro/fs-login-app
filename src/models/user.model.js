@@ -7,25 +7,24 @@ class UserModel {
 		const user = req.body;
 
 		try {
-			const userArray = await database.selectUserByEmail(user.email);
+			const userDetails = await database.selectUserByEmail(user.email);
 
-			if (!Boolean(userArray.length)) {
+			if (!Object.hasOwn(userDetails, 'email')) {
 				req.flash('error', 'Invalid email or password');
 				throw new Error('No User Found');
 			}
 
-			const [userFound] = userArray;
-			const passwordValid = await validatePassword(
+			const passwordIsValid = await validatePassword(
 				user.password,
-				userFound.password,
+				userDetails.password,
 			);
 
-			if (!passwordValid) {
+			if (!passwordIsValid) {
 				req.flash('error', 'Invalid email or password');
 				throw new Error('Invalid Credentials');
 			}
 
-			req.session.user = { ...userFound };
+			req.session.user = { ...userDetails };
 			req.flash('success', 'Welcome back!');
 		} catch (error) {
 			throw new Error(error.message);
@@ -40,22 +39,23 @@ class UserModel {
 		const user = req.body;
 
 		try {
-			const userArray = await database.selectUserByEmail(user.email);
+			const userDetails = await database.selectUserByEmail(user.email);
 
-			if (Boolean(userArray.length)) {
+			if (Object.hasOwn(userDetails, 'email')) {
 				req.flash('error', 'Email already registered');
 				throw new Error('Email already registered');
 			}
 
 			const hashedPassword = await createHashedPassword(user.password);
 
-			await database.createUser({ ...user, password: hashedPassword });
+			const newUserId = await database.createUser({
+				...user,
+				password: hashedPassword,
+			});
 
-			const [registeredUser] = await database.selectUserByEmail(
-				user.email,
-			);
+			const newUserDetails = await database.selectUserById(newUserId);
 
-			req.session.user = { ...registeredUser };
+			req.session.user = { ...newUserDetails };
 			req.flash(
 				'success',
 				'Registration successful! Welcome to your dashboard.',

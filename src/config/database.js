@@ -20,12 +20,30 @@ class Database {
 		}
 	}
 
+	async selectUserById(userId) {
+		const query =
+			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE id = ?';
+
+		const [result, _fields] = await this.connection.execute(query, [
+			userId,
+		]);
+
+		const [userDetails] = result;
+
+		return userDetails || {};
+	}
+
 	async selectUserByEmail(userEmail) {
 		const query =
 			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE email = ?';
-		const [userArray] = await this.connection.execute(query, [userEmail]);
 
-		return userArray;
+		const [result, _fields] = await this.connection.execute(query, [
+			userEmail,
+		]);
+
+		const [userDetails] = result;
+
+		return userDetails || {};
 	}
 
 	async createUser(userData) {
