@@ -9,7 +9,7 @@ class UserModel {
 		try {
 			const userDetails = await database.selectUserByEmail(user.email);
 
-			if (!Object.hasOwn(userDetails, 'email')) {
+			if (!userDetails) {
 				req.flash('error', 'Invalid email or password');
 				throw new Error('No User Found');
 			}
@@ -41,7 +41,7 @@ class UserModel {
 		try {
 			const userDetails = await database.selectUserByEmail(user.email);
 
-			if (Object.hasOwn(userDetails, 'email')) {
+			if (userDetails) {
 				req.flash('error', 'Email already registered');
 				throw new Error('Email already registered');
 			}

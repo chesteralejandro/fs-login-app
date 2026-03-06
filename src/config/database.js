@@ -1,17 +1,18 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 
 class Database {
 	constructor() {
-		this.connection;
+		this.pool;
 	}
 
 	async connect() {
 		try {
-			this.connection = await mysql.createConnection({
+			this.pool = new Pool({
 				host: process.env.DATABASE_HOST,
 				user: process.env.DATABASE_USER,
 				password: process.env.DATABASE_PASSWORD,
 				database: process.env.DATABASE_NAME,
+				port: process.env.DATABASE_PORT,
 			});
 
 			console.log('🟢 Success. Database is connected.');
@@ -22,42 +23,38 @@ class Database {
 
 	async selectUserById(userId) {
 		const query =
-			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE id = ?';
+			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE id = $1';
 
-		const [result, _fields] = await this.connection.execute(query, [
-			userId,
-		]);
+		const result = await this.pool.query(query, [userId]);
 
-		const [userDetails] = result;
+		const [userDetails] = result.rows;
 
-		return userDetails || {};
+		return userDetails || null;
 	}
 
 	async selectUserByEmail(userEmail) {
 		const query =
-			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE email = ?';
+			'SELECT id, first_name, last_name, email, password, created_at FROM users WHERE email = $1';
 
-		const [result, _fields] = await this.connection.execute(query, [
-			userEmail,
-		]);
+		const result = await this.pool.query(query, [userEmail]);
 
-		const [userDetails] = result;
+		const [userDetails] = result.rows;
 
-		return userDetails || {};
+		return userDetails || null;
 	}
 
 	async createUser(userData) {
 		const query =
-			'INSERT INTO `users`(`first_name`, `last_name`, `email`, `password`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, NOW(), NOW())';
+			'INSERT INTO users(first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING id';
 
 		const { firstName, lastName, email, password } = userData;
 		const values = [firstName, lastName, email, password];
 
-		const [result, _fields] = await this.connection.execute(query, values);
+		const result = await this.pool.query(query, values);
 
-		const { insertId } = result;
+		const [firstInsert] = result.rows;
 
-		return insertId;
+		return firstInsert.id;
 	}
 }
 
