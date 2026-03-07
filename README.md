@@ -1,6 +1,6 @@
 # Login Application ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
-A full-stack authentication system built using Node.js, Express, and MySQL.
+A full-stack authentication system built using Node.js, Express, and PostgreSQL (Supabase).
 
 This project implements a secure login and registration flow following the MVC (Model–View–Controller) architecture. It focuses on backend fundamentals, clean structure, and secure session-based authentication.
 
@@ -14,17 +14,34 @@ This application allows users to:
 - View their name and registration year on the dashboard.
 - Log out securely.
 
-Rather than focusing on production-level complexity, this project emphasizes clean structure, maintainability, and proper security practices — making it a solid learning exercise and a portfolio-ready demonstration of fundamental full-stack concepts.
+While intentionally simple, the project demonstrates core backend authentication concepts and clean application architecture. The project was initially developed using MySQL and later migrated to PostgreSQL to simplify cloud deployment and improve portability.
 
-## 🛠️ Tech Stack
+## 🌐 Live Demo
+
+[https://fs-login-app.onrender.com](https://fs-login-app.onrender.com)
+
+## 🏗️ Architecture
 
 ### Backend
 
-`Node.js`, `Express.js`, `MySQL`, `mysql2`, `bcrypt`, `express-session`, `express-validator`, `connect-flash`, `dotenv`
+- Node.js
+- Express.js
+- PostgreSQL
+- pg
+- bcrypt
+- express-session
+- express-validator
 
 ### Frontend
 
-`EJS`, `HTML`, `CSS`
+- EJS
+- HTML
+- CSS
+
+### Deployment
+
+- Render — Node.js server hosting
+- Supabase — PostgreSQL database hosting
 
 ## 📽️ Preview
 
@@ -35,13 +52,20 @@ Rather than focusing on production-level complexity, this project emphasizes cle
 - MVC architecture (Models, Views, Controllers).
 - Modular route organization.
 - Server-side validation using express-validator.
-- Login verification uses bcrypt’s secure comparison method.
-- Password hashing using bcrypt before storage.
+- Secure password hashing and verification using bcrypt
 - Session-based authentication using express-session.
 - Flash messaging for user feedback.
 - Protected routes via custom middleware by requiring an active authenticated session.
 - Confirm password validation during registration.
-- MySQL integration with parameterized queries (mysql2) to prevent SQL injection.
+- PostgreSQL integration with parameterized queries to prevent SQL injection.
+- PostgreSQL connection pooling using pg.Pool
+
+## 🔐 Security Considerations
+
+- Passwords are hashed using bcrypt before storage.
+- SQL queries use parameterized statements to prevent SQL injection.
+- User sessions are stored using express-session.
+- Protected routes require an authenticated session.
 
 ## ⚙️ Installation & Setup
 
@@ -64,49 +88,43 @@ Rather than focusing on production-level complexity, this project emphasizes cle
     PORT=3000
 
     DATABASE_HOST=localhost
-    DATABASE_USER=<your_mysql_user>
+    DATABASE_USER=postgres
     DATABASE_PASSWORD=<your_mysql_password>
+    DATABASE_PORT=5432
     DATABASE_NAME=fs_login_app
 
     SESSION_SECRET=<your_secret_key>
     ```
 
-4.  Create a `.gitignore` file in the root directory:
+4.  Set up the database.
 
-    ```text
-    node_modules/
-    .env
-    ```
+    Create the PostgreSQL database
 
-5.  Set up the database.
-
-    Create MySQL database
-
-    ```mysql
+    ```sql
     CREATE DATABASE fs_login_app;
     ```
 
     Create users table
 
-    ```mysql
+    ```sql
     CREATE TABLE users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        first_name VARCHAR(50) NOT NULL,
-        last_name VARCHAR(50) NOT NULL,
-        email VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(100) NOT NULL,
-        created_at DATETIME,
-        updated_at DATETIME
+        id SERIAL PRIMARY KEY,
+        first_name VARCHAR(50),
+        last_name VARCHAR(50),
+        email VARCHAR(50) UNIQUE,
+        password VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     ```
 
-6.  Start the Application
+5.  Start the Application
 
     ```bash
     npm run dev
     ```
 
-7.  Open in your web browser: [http://localhost:3000](http://localhost:3000)
+6.  Open in your web browser: [http://localhost:3000](http://localhost:3000)
 
 ## 📂 Project Structure
 
@@ -132,9 +150,3 @@ root/
 ```
 
 The application follows a structured MVC separation to maintain scalability and code clarity.
-
-## 🚀 Possible Enhancements
-
-- CSRF protection
-- Login attempt limit
-- Password reset
